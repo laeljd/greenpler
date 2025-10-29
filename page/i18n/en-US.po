@@ -1,0 +1,26 @@
+msgid "AM"
+msgstr "AM"
+
+msgid "PM"
+msgstr "PM"
+
+msgid "week_mon"
+msgstr "MON"
+
+msgid "week_tue"
+msgstr "TUE"
+
+msgid "week_wed"
+msgstr "WED"
+
+msgid "week_thu"
+msgstr "THU"
+
+msgid "week_fri"
+msgstr "FRI"
+
+msgid "week_sat"
+msgstr "SAT"
+
+msgid "week_sun"
+msgstr "SUM"

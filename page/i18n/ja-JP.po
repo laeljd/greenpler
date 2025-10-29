@@ -1,0 +1,26 @@
+msgid "AM"
+msgstr "午前"
+
+msgid "PM"
+msgstr "午後"
+
+msgid "week_mon"
+msgstr "月曜日"
+
+msgid "week_tue"
+msgstr "火曜日"
+
+msgid "week_wed"
+msgstr "水曜日"
+
+msgid "week_thu"
+msgstr "木曜日"
+
+msgid "week_fri"
+msgstr "金曜日"
+
+msgid "week_sat"
+msgstr "土曜日"
+
+msgid "week_sun"
+msgstr "日曜日"

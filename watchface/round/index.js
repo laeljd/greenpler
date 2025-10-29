@@ -14,6 +14,9 @@ import {
   SYSTEM_APP_SPORT,
   SYSTEM_APP_SLEEP
 } from '@zos/router'
+import { getText } from '@zos/i18n'
+import { getLanguage } from '@zos/settings'
+
 
 try {
   (() => {
@@ -22,6 +25,10 @@ try {
     const logger = log.getLogger('greenpler-watchface')
     const img = assets('images')
     const font = assets('fonts')
+
+    let font_file_text = ''
+    let font_file_number = ''
+    let text_size_config = {}
 
     let timerId = null;
     let useTimer = false;
@@ -43,7 +50,9 @@ try {
     let idle_AM_PM_text_font = ''
     let normal_day_text_font = ''
     let normal_week_text_font = ''
-    let normal_WEEK_Array = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM'];
+    let normal_WEEK_Array = []
+    let normal_AM_Text = ''
+    let normal_PM_Text = ''
     let Button_calendar = ''
     let Button_battery = ''
     let Button_countdown = ''
@@ -57,6 +66,7 @@ try {
     WatchFace({
       init_view() {
         //dynamic modify start
+        settingsLanguageConfig();
 
         //#region Normal Screen
         normal_background_bg = hmUI.createWidget(hmUI.widget.FILL_RECT, {
@@ -93,9 +103,9 @@ try {
           y: px(424),
           w: px(100),
           h: px(40),
-          text_size: px(40),
+          text_size: text_size_config.normal_battery_current_text_size,
           char_space: px(-2),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_number,
           color: 0xFFFFFFFF,
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
@@ -121,9 +131,9 @@ try {
           y: px(196),
           w: px(200),
           h: px(120),
-          text_size: px(150),
+          text_size: text_size_config.normal_time_hour_text_size,
           char_space: px(-8),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_number,
           color: 0xFFFFFDFB,
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
@@ -139,9 +149,9 @@ try {
           y: px(196),
           w: px(200),
           h: px(120),
-          text_size: px(150),
+          text_size: text_size_config.normal_time_minute_text_size,
           char_space: px(-8),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_number,
           color: 0xFF00FF88,
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
@@ -157,9 +167,9 @@ try {
           y: px(190),
           w: px(60),
           h: px(60),
-          text_size: px(50),
+          text_size: text_size_config.normal_time_second_text_size,
           char_space: px(-4),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_number,
           color: 0xFF808080,
           line_space: px(0),
           align_v: hmUI.align.TOP,
@@ -175,9 +185,9 @@ try {
           y: px(232),
           w: px(100),
           h: px(100),
-          text_size: px(42),
+          text_size: text_size_config.normal_AM_PM_text_size,
           char_space: px(-2),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_text,
           color: 0xFF00FF88,
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
@@ -194,9 +204,9 @@ try {
           y: px(55),
           w: px(50),
           h: px(40),
-          text_size: px(40),
+          text_size: text_size_config.normal_day_text_size,
           char_space: px(0),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_number,
           color: 0xFF00FF88,
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
@@ -211,9 +221,9 @@ try {
           y: px(55),
           w: px(70),
           h: px(40),
-          text_size: px(40),
+          text_size: text_size_config.normal_week_text_size,
           char_space: px(0),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_text,
           color: 0xFFFFFFFF,
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
@@ -240,9 +250,9 @@ try {
           y: px(232),
           w: px(100),
           h: px(100),
-          text_size: px(42),
+          text_size: text_size_config.idle_AM_PM_text_size,
           char_space: px(-2),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_text,
           color: 0xFF004826,
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
@@ -258,9 +268,9 @@ try {
           y: px(196),
           w: px(200),
           h: px(120),
-          text_size: px(150),
+          text_size: text_size_config.idle_time_hour_text_size,
           char_space: px(-8),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_number,
           color: 0xFF484848,
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
@@ -275,9 +285,9 @@ try {
           y: px(196),
           w: px(200),
           h: px(120),
-          text_size: px(150),
+          text_size: text_size_config.idle_time_minute_text_size,
           char_space: px(-8),
-          font: font('Courier Prime Sans.ttf'),
+          font: font_file_number,
           color: 0xFF004826,
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
@@ -449,8 +459,8 @@ try {
           const hourFormat = timeSensor.getHourFormat(); // 12-hour = 0 or 24-hour = 1
           // logger.log('AM PM font');
           if (hourFormat == TIME_HOUR_FORMAT_12) {
-            const hour = timeSensor.getHours();
-            const am_pm = hour > 11 ? 'PM' : 'AM';
+            const am_pm = timeSensor.getHours() > 11 ? normal_PM_Text : normal_AM_Text;
+
             normal_AM_PM_text_font.setProperty(hmUI.prop.TEXT, am_pm);
             idle_AM_PM_text_font.setProperty(hmUI.prop.TEXT, am_pm);
           } else {
@@ -503,6 +513,75 @@ try {
           normal_battery_linear_scale.setProperty(hmUI.prop.Y, originPositionY);
           normal_battery_linear_scale.setProperty(hmUI.prop.H, height);
         };
+
+        // fonts size configuration
+        function useFontLanguageSize() {
+          let textSizeConfig = {
+            normal_battery_current_text_size: px(40),
+            normal_time_hour_text_size: px(150),
+            normal_time_minute_text_size: px(150),
+            normal_time_second_text_size: px(50),
+            normal_AM_PM_text_size: px(42),
+            normal_day_text_size: px(40),
+            normal_week_text_size: px(40),
+            idle_AM_PM_text_size: px(42),
+            idle_time_hour_text_size: px(150),
+            idle_time_minute_text_size: px(150),
+          }
+
+          switch (getLanguage()) {
+            case 0: // Chinese
+            case 1: // Chinese Traditional
+            case 5: // Korean
+            case 11: // Japanese
+              textSizeConfig.normal_week_text_size = px(24);
+              textSizeConfig.normal_AM_PM_text_size = px(26);
+              textSizeConfig.idle_AM_PM_text_size = px(26);
+              break;
+            default: break;
+          }
+
+          text_size_config = textSizeConfig;
+        };
+
+        // font file configuration
+        function useFontLanguage() {
+          switch (getLanguage()) {
+            case 0: // Chinese
+            case 1: // Chinese Traditional
+            case 5: // Korean
+            case 11: // Japanese
+              font_file_text = undefined; // system font
+              font_file_number = font('Courier Prime Sans.ttf');
+              break;
+            default:
+              font_file_text = font('Courier Prime Sans.ttf');
+              font_file_number = font('Courier Prime Sans.ttf');
+              break;
+          }
+
+        };
+
+        function settingsLanguageConfig() {
+          // logger.log('settingsLanguageConfig()');
+
+          useFontLanguageSize();
+          useFontLanguage();
+
+          normal_WEEK_Array = [
+            getText('week_mon'),
+            getText('week_tue'),
+            getText('week_wed'),
+            getText('week_thu'),
+            getText('week_fri'),
+            getText('week_sat'),
+            getText('week_sun')
+          ];
+
+          normal_AM_Text = getText("AM");
+          normal_PM_Text = getText("PM");
+        };
+
         //#endregion Functions
 
         //#region WIDGET_DELEGATE
@@ -544,6 +623,7 @@ try {
 
       //#region onInit, build, onDestroy
       onInit() {
+        this.settingsLanguageConfig()
         // logger.log('index page.js on init invoke');
         // determine available timer function
         if (typeof timer !== 'undefined' && typeof timer.createTimer == 'function') {

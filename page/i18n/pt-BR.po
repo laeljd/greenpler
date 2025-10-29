@@ -1,0 +1,26 @@
+msgid "AM"
+msgstr "AM"
+
+msgid "PM"
+msgstr "PM"
+
+msgid "week_mon"
+msgstr "SEG"
+
+msgid "week_tue"
+msgstr "TER"
+
+msgid "week_wed"
+msgstr "QUA"
+
+msgid "week_thu"
+msgstr "QUI"
+
+msgid "week_fri"
+msgstr "SEX"
+
+msgid "week_sat"
+msgstr "SAB"
+
+msgid "week_sun"
+msgstr "DOM"
