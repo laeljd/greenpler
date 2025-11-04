@@ -45,18 +45,7 @@ Greenpler is a lightweight, optimized watchface for Zepp OS, initially developed
 - GitHub Releases (upload/releases page): https://github.com/laeljd/greenpler/releases
 
 ## Screenshots / Preview
-Place your release screenshots in releases/v1.0.0/ with the filenames below. They will be displayed here automatically.
-
-- Recommended filenames:
-  - releases/v1.0.0/greenpler-preview-1.png
-  - releases/v1.0.0/greenpler-preview-2.png
-  - releases/v1.0.0/greenpler-preview-3.png
-
-Recommended image size: 480×480 (PNG). Example embeds (will show when files exist):
-
-![Greenpler preview 1](./releases/v1.0.0/greenpler-preview-1.png)
-![Greenpler preview 2](./releases/v1.0.0/greenpler-preview-2.png)
-![Greenpler preview 3](./releases/v1.0.0/greenpler-preview-3.png)
+<img src="./releases/v1.0.0/greenpler-preview-1.png" alt="Greenpler embedded preview" width="240" height="240" />
 
 ## License
 - Check repository license files (if any) before redistributing.
