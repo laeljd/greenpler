@@ -1,7 +1,7 @@
 {
   "configVersion": "v3",
   "app": {
-    "appId": 8526944,
+    "appId": 1094190,
     "appName": "Greenpler",
     "appType": "watchface",
     "version": {
@@ -44,5 +44,5 @@
     }
   },
   "defaultLanguage": "en-US",
-  "debug": true
+  "debug": false
 }
