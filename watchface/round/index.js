@@ -1,5 +1,5 @@
 import * as hmUI from '@zos/ui'
-import { log, assets } from '@zos/utils'
+import { px, log, assets } from '@zos/utils'
 import { getScene, SCENE_AOD, SCENE_WATCHFACE } from '@zos/app'
 import { Battery, Time, TIME_HOUR_FORMAT_12 } from '@zos/sensor'
 import {
@@ -37,7 +37,9 @@ try {
     let normal_background_bg = ''
     let idle_background_bg = ''
     let battery = '';
-    let normal_battery_icon_img = ''
+    let normal_battery_icon_img_out = ''
+    let normal_battery_icon_img_top = ''
+    let normal_battery_icon_img_inner = ''
     let normal_battery_linear_scale = ''
     let normal_battery_current_text_font = ''
     let timeSensor = '';
@@ -61,6 +63,63 @@ try {
     let Button_steps = ''
     let Button_sleep = ''
     let Button_style = ''
+    // Color picker dialog state (lazy-created)
+    let colorDialogWidgets = [];
+    let selectedTextColor = '0x00FF80'; // default
+    const colorPalette = [
+      Number('0x00FF7F'),
+      Number('0x7FFFBF'),
+      Number('0x00FFFF'),
+      Number('0x7FFFFF'),
+      Number('0x007FFF'),
+      Number('0x7FBFFF'),
+      Number('0x0000FF'),
+      Number('0x7F7FFF'),
+      Number('0x7F00FF'),
+      Number('0xBF7FFF'),
+      Number('0xFF00FF'),
+      Number('0xFF7FFF'),
+      Number('0xFF007F'),
+      Number('0xFF7FBF'),
+      Number('0xFF0000'),
+      Number('0xFF7F7F'),
+      Number('0xFF7F00'),
+      Number('0xFFBF7F'),
+      Number('0xFFFF00'),
+      Number('0xFFFF7F'),
+      Number('0x7FFF00'),
+      Number('0xBFFF7F'),
+      Number('0x00FF00'),
+      Number('0x7FFF7F'),
+    ];
+
+
+
+    // 'hsl(150 100% 75%)',
+    // 'hsl(180 100% 50%)',
+    // 'hsl(180 100% 75%)',
+    // 'hsl(210 100% 50%)',
+    // 'hsl(210 100% 75%)',
+    // 'hsl(240 100% 50%)',
+    // 'hsl(240 100% 75%)',
+    // 'hsl(270 100% 50%)',
+    // 'hsl(270 100% 75%)',
+    // 'hsl(300 100% 50%)',
+    // 'hsl(300 100% 75%)',
+    // 'hsl(330 100% 50%)',
+    // 'hsl(330 100% 75%)',
+    // 'hsl(0 100% 50%)',
+    // 'hsl(0 100% 75%)',
+    // 'hsl(30 100% 50%)',
+    // 'hsl(30 100% 75%)',
+    // 'hsl(60 100% 50%)',
+    // 'hsl(60 100% 75%)',
+    // 'hsl(90 100% 50%)',
+    // 'hsl(90 100% 75%)',
+    // 'hsl(120 100% 50%)',
+    // 'hsl(120 100% 75%)',
+
+
     //#endregion VARIABLES
 
     WatchFace({
@@ -74,15 +133,38 @@ try {
           y: px(0),
           w: px(480),
           h: px(480),
-          color: '0xFF000000',
+          color: '0x000000',
           show_level: hmUI.show_level.ONLY_NORMAL,
         });
 
         //#region Battery
-        normal_battery_icon_img = hmUI.createWidget(hmUI.widget.IMG, {
-          x: px(200),
+        normal_battery_icon_img_top = hmUI.createWidget(hmUI.widget.FILL_RECT, {
+          x: px(204),
           y: px(428),
-          src: img('battery_0.png'),
+          w: px(6),
+          h: px(4),
+          color: '0x00FF88',
+          radius: px(2),
+          show_level: hmUI.show_level.ONLY_NORMAL,
+        });
+
+        normal_battery_icon_img_out = hmUI.createWidget(hmUI.widget.FILL_RECT, {
+          x: px(200),
+          y: px(431),
+          w: px(14),
+          h: px(22),
+          color: '0x00FF88',
+          radius: px(2),
+          show_level: hmUI.show_level.ONLY_NORMAL,
+        });
+
+        normal_battery_icon_img_inner = hmUI.createWidget(hmUI.widget.FILL_RECT, {
+          x: px(202),
+          y: px(433),
+          w: px(10),
+          h: px(18),
+          color: '0x000000',
+          radius: px(2),
           show_level: hmUI.show_level.ONLY_NORMAL,
         });
 
@@ -91,7 +173,7 @@ try {
           y: px(453),
           w: px(12),
           h: px(0),
-          color: 0xFF00FF88,
+          color: '0x00FF88',
           show_level: hmUI.show_level.ONLY_NORMAL,
         });
 
@@ -106,7 +188,7 @@ try {
           text_size: text_size_config.normal_battery_current_text_size,
           char_space: px(-2),
           font: font_file_number,
-          color: 0xFFFFFFFF,
+          color: '0xFFFFFF',
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -134,7 +216,7 @@ try {
           text_size: text_size_config.normal_time_hour_text_size,
           char_space: px(-8),
           font: font_file_number,
-          color: 0xFFFFFDFB,
+          color: '0xFFFFFDFB',
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -152,7 +234,7 @@ try {
           text_size: text_size_config.normal_time_minute_text_size,
           char_space: px(-8),
           font: font_file_number,
-          color: 0xFF00FF88,
+          color: '0x00FF88',
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -170,7 +252,7 @@ try {
           text_size: text_size_config.normal_time_second_text_size,
           char_space: px(-4),
           font: font_file_number,
-          color: 0xFF808080,
+          color: '0x808080',
           line_space: px(0),
           align_v: hmUI.align.TOP,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -188,7 +270,7 @@ try {
           text_size: text_size_config.normal_AM_PM_text_size,
           char_space: px(-2),
           font: font_file_text,
-          color: 0xFF00FF88,
+          color: '0x00FF88',
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -207,7 +289,7 @@ try {
           text_size: text_size_config.normal_day_text_size,
           char_space: px(0),
           font: font_file_number,
-          color: 0xFF00FF88,
+          color: '0x00FF88',
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -224,7 +306,7 @@ try {
           text_size: text_size_config.normal_week_text_size,
           char_space: px(0),
           font: font_file_text,
-          color: 0xFFFFFFFF,
+          color: '0xFFFFFF',
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -253,7 +335,7 @@ try {
           text_size: text_size_config.idle_AM_PM_text_size,
           char_space: px(-2),
           font: font_file_text,
-          color: 0xFF004826,
+          color: '0x00FF88',
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -271,7 +353,7 @@ try {
           text_size: text_size_config.idle_time_hour_text_size,
           char_space: px(-8),
           font: font_file_number,
-          color: 0xFF484848,
+          color: '0x484848',
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -288,7 +370,7 @@ try {
           text_size: text_size_config.idle_time_minute_text_size,
           char_space: px(-8),
           font: font_file_number,
-          color: 0xFF004826,
+          color: '0x00FF88',
           line_space: px(0),
           align_v: hmUI.align.CENTER_V,
           text_style: hmUI.text_style.ELLIPSIS,
@@ -371,9 +453,10 @@ try {
 
         Button_hr = hmUI.createWidget(hmUI.widget.BUTTON, {
           x: px(40),
-          y: px(70),
-          w: px(80),
-          h: px(80),
+          y: px(40),
+          w: px(100),
+          h: px(100),
+          radius: px(50),
           press_src: img('transparent.png'),
           normal_src: img('transparent.png'),
           click_func: (button_widget) => {
@@ -386,10 +469,11 @@ try {
         });
 
         Button_steps = hmUI.createWidget(hmUI.widget.BUTTON, {
-          x: px(360),
-          y: px(70),
-          w: px(80),
-          h: px(80),
+          x: px(340),
+          y: px(40),
+          w: px(100),
+          h: px(100),
+          radius: px(50),
           press_src: img('transparent.png'),
           normal_src: img('transparent.png'),
           click_func: (button_widget) => {
@@ -400,9 +484,10 @@ try {
 
         Button_sleep = hmUI.createWidget(hmUI.widget.BUTTON, {
           x: px(40),
-          y: px(320),
-          w: px(80),
-          h: px(80),
+          y: px(340),
+          w: px(100),
+          h: px(100),
+          radius: px(50),
           press_src: img('transparent.png'),
           normal_src: img('transparent.png'),
           click_func: (button_widget) => {
@@ -410,21 +495,21 @@ try {
               appId: SYSTEM_APP_SLEEP,
               native: true,
             });
-
           },
           show_level: hmUI.show_level.ONLY_NORMAL,
         });
 
         Button_style = hmUI.createWidget(hmUI.widget.BUTTON, {
-          x: px(360),
-          y: px(320),
-          w: px(80),
-          h: px(80),
+          x: px(340),
+          y: px(340),
+          w: px(100),
+          h: px(100),
+          radius: px(50),
           press_src: img('transparent.png'),
           normal_src: img('transparent.png'),
           show_level: hmUI.show_level.ONLY_NORMAL,
           longpress_func: (button_widget) => {
-            // changeWatchFaceStyle();
+            changeWatchFaceStyle();
           },
         });
         //#endregion Buttons
@@ -582,6 +667,113 @@ try {
           normal_PM_Text = getText("PM");
         };
 
+        // Create the color picker overlay and buttons on demand.
+        function changeWatchFaceStyle() {
+          // logger.log('changeWatchFaceStyle()');
+
+          if (colorDialogWidgets.length) {
+            // already open -> close it
+            closeColorDialog();
+            return;
+          }
+
+          // semi-transparent overlay
+          const colorDialogOverlay = hmUI.createWidget(hmUI.widget.CIRCLE, {
+            center_x: px(240),
+            center_y: px(240),
+            radius: px(240),
+            color: 0x000000,
+            alpha: 200,
+            show_level: hmUI.show_level.ONLY_NORMAL,
+          });
+
+          colorDialogWidgets.push(colorDialogOverlay);
+
+          // layout buttons in a simple grid
+          const btnSize = 60;
+          const padding = 10;
+          const columns = 6;
+          const startX = 35;
+          const startY = 105;
+
+          colorPalette.forEach((color, idx) => {
+            const colX = startX + (idx % columns) * (btnSize + padding);
+            const colY = startY + Math.floor(idx / columns) * (btnSize + padding);
+
+            // colored background rect (visual)
+            const buttonFillColor = hmUI.createWidget(hmUI.widget.FILL_RECT, {
+              x: px(colX), y: px(colY), w: px(btnSize), h: px(btnSize),
+              color: color,
+              radius: px(64),
+              show_level: hmUI.show_level.ONLY_NORMAL,
+            });
+
+            // invisible button over the rect to receive clicks
+            const buttonColor = hmUI.createWidget(hmUI.widget.BUTTON, {
+              x: px(colX), y: px(colY), w: px(btnSize), h: px(btnSize),
+              normal_src: img('transparent.png'),
+              press_src: img('transparent.png'),
+              show_level: hmUI.show_level.ONLY_NORMAL,
+              click_func: () => {
+                applyTextColorNumber(color);
+                closeColorDialog();
+              }
+            });
+
+            colorDialogWidgets.push(buttonFillColor, buttonColor);
+          });
+
+          // cancel button
+          const cancelBtn = hmUI.createWidget(hmUI.widget.BUTTON, {
+            x: px(160), y: px(400), w: px(160), h: px(72),
+            normal_src: img('transparent.png'),
+            press_src: img('transparent.png'),
+            font: font_file_text,
+            show_level: hmUI.show_level.ONLY_NORMAL,
+            click_func: () => closeColorDialog()
+          });
+
+          // optional label could be added; keep simple to minimize resources
+          colorDialogWidgets.push(cancelBtn);
+        }
+
+        function closeColorDialog() {
+          // logger.log('closeColorDialog()');
+
+          if (!colorDialogWidgets.length) return;
+
+          // delete widgets created for the dialog to free memory
+          try {
+            colorDialogWidgets.forEach(widget => {
+              try { hmUI.deleteWidget(widget); } catch (e) { /* ignore individual failures */ }
+            });
+          } catch (e) {
+            logger.log('Error deleting dialog widgets', e);
+          }
+
+          // clear references so GC can reclaim memory
+          colorDialogWidgets = [];
+        }
+
+        function applyTextColorNumber(color) {
+          // logger.log('applyTextColorNumber()');
+          selectedTextColor = color;
+
+          const widgetsToUpdate = [
+            normal_time_minute_text_font,
+            idle_time_minute_text_font,
+            normal_AM_PM_text_font,
+            idle_AM_PM_text_font,
+            normal_day_text_font,
+            normal_battery_linear_scale,
+            normal_battery_icon_img_top,
+            normal_battery_icon_img_out,
+          ];
+
+          widgetsToUpdate.forEach(widget => {
+            widget.setProperty(hmUI.prop.COLOR, color);
+          });
+        }
         //#endregion Functions
 
         //#region WIDGET_DELEGATE
