@@ -13,8 +13,3 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
-!releases/*
-!releases/
-!releases/*.zip
-!releases/*.json
-!releases/*.md
