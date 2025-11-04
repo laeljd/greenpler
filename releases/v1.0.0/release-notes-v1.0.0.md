@@ -13,6 +13,10 @@ Release date: 2025-11-03
 - Performance: optimized updates and widget lifecycle to reduce memory and battery usage.
 
 ## Included files
-- greenpler-480-round-v1.0.0.zip — compiled package
+- greenpler-balance-v1.0.0.zip — compiled package
+- greenpler-balance-v1.0.0.zab — compiled package
+- greenpler-balance2-v1.0.0.zip — compiled package
+- greenpler-balance2-v1.0.0.zab — compiled package
+- greenpler-v1.0.0.json — release metadata
 - greenpler-v1.0.0.json — release metadata
 - greenpler-notes.v1.0.0 — release notes
