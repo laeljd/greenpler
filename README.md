@@ -39,10 +39,24 @@ Greenpler is a lightweight, optimized watchface for Zepp OS, initially developed
 - The code is organized to make palette, layout, and font-size adjustments easy.
 
 ## Downloads & Links
-- Download (zip): [releases/greenpler-480-round-v1.0.0.zip](./releases/greenpler-480-round-v1.0.0.zip)
-- Release notes: [releases/release-notes-v1.0.0.md](./releases/release-notes-v1.0.0.md)
-- Release metadata: [releases/greenpler-v1.0.0.json](./releases/greenpler-v1.0.0.json)
+- Download (zip): [releases/v1.0.0/greenpler-480-round-v1.0.0.zip](./releases/v1.0.0/greenpler-480-round-v1.0.0.zip)
+- Release notes: [releases/v1.0.0/release-notes-v1.0.0.md](./releases/v1.0.0/release-notes-v1.0.0.md)
+- Release metadata: [releases/v1.0.0/greenpler-v1.0.0.json](./releases/v1.0.0/greenpler-v1.0.0.json)
 - GitHub Releases (upload/releases page): https://github.com/laeljd/greenpler/releases
+
+## Screenshots / Preview
+Place your release screenshots in releases/v1.0.0/ with the filenames below. They will be displayed here automatically.
+
+- Recommended filenames:
+  - releases/v1.0.0/greenpler-preview-1.png
+  - releases/v1.0.0/greenpler-preview-2.png
+  - releases/v1.0.0/greenpler-preview-3.png
+
+Recommended image size: 480×480 (PNG). Example embeds (will show when files exist):
+
+![Greenpler preview 1](./releases/v1.0.0/greenpler-preview-1.png)
+![Greenpler preview 2](./releases/v1.0.0/greenpler-preview-2.png)
+![Greenpler preview 3](./releases/v1.0.0/greenpler-preview-3.png)
 
 ## License
 - Check repository license files (if any) before redistributing.
