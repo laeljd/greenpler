@@ -1,0 +1,12 @@
+{
+    "name": "Greenpler",
+    "version": "1.0.0",
+    "api_min": "3.6",
+    "target": "480-round",
+    "build_date": "2025-11-03",
+    "zip": "greenpler-480-round-v1.0.0.zip",
+    "notes": "See release-notes-v1.0.0.md for changelog",
+    "assets": [
+        "greenpler-480-round-v1.0.0.zip"
+    ]
+}
