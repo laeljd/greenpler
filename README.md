@@ -39,9 +39,9 @@ Greenpler is a lightweight, optimized watchface for Zepp OS, initially developed
 - The code is organized to make palette, layout, and font-size adjustments easy.
 
 ## Downloads & Links
-- Download (zip): [releases/v1.0.0/greenpler-480-round-v1.0.0.zip](./releases/v1.0.0/greenpler-480-round-v1.0.0.zip)
-- Release notes: [releases/v1.0.0/release-notes-v1.0.0.md](./releases/v1.0.0/release-notes-v1.0.0.md)
-- Release metadata: [releases/v1.0.0/greenpler-v1.0.0.json](./releases/v1.0.0/greenpler-v1.0.0.json)
+- Download (zip): [greenpler-480-round-v1.0.0.zip](./releases/v1.0.0/greenpler-480-round-v1.0.0.zip)
+- Release notes: [release-notes-v1.0.0.md](./releases/v1.0.0/release-notes-v1.0.0.md)
+- Release metadata: [greenpler-v1.0.0.json](./releases/v1.0.0/greenpler-v1.0.0.json)
 - GitHub Releases (upload/releases page): https://github.com/laeljd/greenpler/releases
 
 ## Screenshots / Preview

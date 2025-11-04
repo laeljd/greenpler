@@ -15,6 +15,4 @@ Release date: 2025-11-03
 ## Included files
 - greenpler-480-round-v1.0.0.zip — compiled package
 - greenpler-v1.0.0.json — release metadata
-
-## Notes
-- Create git tag `v1.0.0` and push tags. Use GitHub Releases UI or `gh release create` to upload the zip and attach these notes.
+- greenpler-notes.v1.0.0 — release notes
