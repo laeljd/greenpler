@@ -46,6 +46,8 @@ Greenpler is a lightweight, optimized watchface for Zepp OS, initially developed
 
 ## Screenshots / Preview
 <img src="./releases/v1.0.0/greenpler-preview-1.png" alt="Greenpler embedded preview" width="240" height="240" />
+<img src="./releases/v1.0.0/greenpler-preview-2.png" alt="Greenpler embedded preview" width="240" height="240" />
+<img src="./releases/v1.0.0/greenpler-preview-3.png" alt="Greenpler embedded preview" width="240" height="240" />
 
 ## License
 - Check repository license files (if any) before redistributing.
