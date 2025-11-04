@@ -815,7 +815,6 @@ try {
 
       //#region onInit, build, onDestroy
       onInit() {
-        this.settingsLanguageConfig()
         // logger.log('index page.js on init invoke');
         // determine available timer function
         if (typeof timer !== 'undefined' && typeof timer.createTimer == 'function') {
