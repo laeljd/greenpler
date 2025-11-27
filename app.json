@@ -26,7 +26,7 @@
         "watchface": {
           "path": "watchface/balance/index",
           "main": 1,
-          "editable": 1,
+          "editable": 0,
           "lockscreen": 1
         }
       },
@@ -44,5 +44,5 @@
     }
   },
   "defaultLanguage": "en-US",
-  "debug": true
+  "debug": false
 }
